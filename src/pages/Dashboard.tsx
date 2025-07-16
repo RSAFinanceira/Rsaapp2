@@ -58,6 +58,8 @@ const Dashboard = () => {
     }
   ];
 
+  const [usuarioLogado, setUsuarioLogado] = useState<Usuario>(usuarios[0]); // Por padrão, RafaelMaster
+
   const handleSair = () => {
     toast({
       title: "Logout realizado",
@@ -198,7 +200,9 @@ const Dashboard = () => {
             <TabsTrigger value="gestao-leads">Gestão de Leads</TabsTrigger>
             <TabsTrigger value="ranking-vendas">Ranking de Vendas</TabsTrigger>
             <TabsTrigger value="scripts-vendas">Scripts de Vendas</TabsTrigger>
-            <TabsTrigger value="cadastrar-usuarios">Cadastrar Usuários</TabsTrigger>
+            {usuarioLogado.tipo === 'master' && (
+              <TabsTrigger value="cadastrar-usuarios">Cadastrar Usuários</TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="gestao-leads" className="space-y-6">
@@ -360,16 +364,18 @@ const Dashboard = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="cadastrar-usuarios">
-            <Card>
-              <CardHeader>
-                <CardTitle>Cadastrar Usuários</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CadastroUsuarios usuarios={usuarios} />
-              </CardContent>
-            </Card>
-          </TabsContent>
+          {usuarioLogado.tipo === 'master' && (
+            <TabsContent value="cadastrar-usuarios">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Cadastrar Usuários</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CadastroUsuarios usuarios={usuarios} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>
